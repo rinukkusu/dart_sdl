@@ -149,3 +149,9 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+
+!external/
+!external/SDL2-2.0.5/
+!external/SDL2-2.0.5/lib/x64/
+!external/SDL2-2.0.5/lib/x86/
