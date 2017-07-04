@@ -3,6 +3,9 @@
 
 import 'dart-ext:sdl_extension';
 
-num SDL_INIT_VIDEO = "\u{000020}".runes.first;
+num SDL_INIT_VIDEO = 32;
+num SDL_WINDOW_OPENGL = 2;
 
 bool SDL_Init(int flags) native "SDL_Init";
+int SDL_CreateWindow(String title, int x, int y, int w, int h, int flags)
+    native "SDL_CreateWindow";
