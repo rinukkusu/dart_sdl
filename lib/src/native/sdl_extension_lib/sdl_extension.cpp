@@ -1,18 +1,18 @@
 #include <string>
 #include <vector>
 #include <dart_api.h>
+#include <dart_native_api.h>
 #include <SDL.h>
-
-#define MAX_WINDOW_COUNT 10
-
-volatile SDL_Window* g_lWindows[MAX_WINDOW_COUNT] = { NULL };
-volatile int g_windowCount = 0;
+#include "SDL_WindowWrapper.h"
 
 // Forward declaration of ResolveName function.
 Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool* auto_setup_scope);
 
 void _SDL_Init(Dart_NativeArguments args);
 void _SDL_CreateWindow(Dart_NativeArguments args);
+void _SDL_RenderClear(Dart_NativeArguments args);
+void _SDL_SetRenderDrawColor(Dart_NativeArguments args);
+void _SDL_RenderPresent(Dart_NativeArguments args);
 
 // The name of the initialization function is the extension name followed
 // by _Init.
@@ -46,17 +46,22 @@ Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_sc
 
 	if (strcmp("SDL_Init", cname) == 0) result = _SDL_Init;
 	if (strcmp("SDL_CreateWindow", cname) == 0) result = _SDL_CreateWindow;
+	if (strcmp("SDL_RenderClear", cname) == 0) result = _SDL_RenderClear;
+	if (strcmp("SDL_SetRenderDrawColor", cname) == 0) result = _SDL_SetRenderDrawColor;
+	if (strcmp("SDL_RenderPresent", cname) == 0) result = _SDL_RenderPresent;
 
 	return result;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-SDL_Window* GetWindow(int index) {
-	if (index >= MAX_WINDOW_COUNT)
-		return NULL;
 
-	return (SDL_Window*) g_lWindows[index];
+SDL_WindowWrapper* GetWindowFromArgs(Dart_NativeArguments args) {
+	int64_t index = 0;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 0, &index));
+
+	return SDL_WindowWrapper::GetWindow(index);
 }
 
 void _SDL_Init(Dart_NativeArguments args) {
@@ -86,11 +91,35 @@ void _SDL_CreateWindow(Dart_NativeArguments args) {
 	bool success = window != NULL;
 
 	if (success) {
-		int windowNumber = g_windowCount++;
-		g_lWindows[windowNumber] = window;
-		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(windowNumber)));
+		SDL_WindowWrapper wrapper(window);
+		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(wrapper.GetIndex())));
 	}
 	else {
 		Dart_SetReturnValue(args, HandleError(Dart_NewApiError("Couldn't create SDL window.")));
 	}
+}
+
+void _SDL_RenderClear(Dart_NativeArguments args) {
+	SDL_WindowWrapper* window = GetWindowFromArgs(args);
+	bool result = window->Clear();
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
+}
+
+void _SDL_RenderPresent(Dart_NativeArguments args) {
+	SDL_WindowWrapper* window = GetWindowFromArgs(args);
+	window->Present();
+}
+
+void _SDL_SetRenderDrawColor(Dart_NativeArguments args) {
+	int64_t r, g, b, a = 0;
+	HandleError(Dart_GetNativeIntegerArgument(args, 1, &r));
+	HandleError(Dart_GetNativeIntegerArgument(args, 2, &g));
+	HandleError(Dart_GetNativeIntegerArgument(args, 3, &b));
+	HandleError(Dart_GetNativeIntegerArgument(args, 4, &a));
+
+	SDL_WindowWrapper* window = GetWindowFromArgs(args);
+	bool result = window->SetColor(r, g, b, a);
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }
