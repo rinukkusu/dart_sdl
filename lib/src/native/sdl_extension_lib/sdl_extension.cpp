@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <memory>
 #include <dart_api.h>
 #include <dart_native_api.h>
 #include <SDL.h>
@@ -91,8 +92,8 @@ void _SDL_CreateWindow(Dart_NativeArguments args) {
 	bool success = window != NULL;
 
 	if (success) {
-		SDL_WindowWrapper wrapper(window);
-		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(wrapper.GetIndex())));
+		auto wrapper = std::make_shared<SDL_WindowWrapper>(window);
+		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(wrapper->GetIndex())));
 	}
 	else {
 		Dart_SetReturnValue(args, HandleError(Dart_NewApiError("Couldn't create SDL window.")));
