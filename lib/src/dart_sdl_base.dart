@@ -16,3 +16,4 @@ bool SDL_RenderClear(int window) native "SDL_RenderClear";
 void SDL_RenderPresent(int window) native "SDL_RenderPresent";
 int SDL_PollEvent(int window) native "SDL_PollEvent";
 void SDL_Delay(int ms) native "SDL_Delay";
+void SDL_SetWindowTitle(int window, String title) native "SDL_SetWindowTitle";

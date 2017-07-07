@@ -18,6 +18,7 @@ void _SDL_SetRenderDrawColor(Dart_NativeArguments args);
 void _SDL_RenderPresent(Dart_NativeArguments args);
 void _SDL_PollEvent(Dart_NativeArguments args);
 void _SDL_Delay(Dart_NativeArguments args);
+void _SDL_SetWindowTitle(Dart_NativeArguments args);
 
 // The name of the initialization function is the extension name followed
 // by _Init.
@@ -53,6 +54,7 @@ Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_sc
 	if (strcmp("SDL_RenderPresent", cname) == 0) result = _SDL_RenderPresent;
 	if (strcmp("SDL_PollEvent", cname) == 0) result = _SDL_PollEvent;
 	if (strcmp("SDL_Delay", cname) == 0) result = _SDL_Delay;
+	if (strcmp("SDL_SetWindowTitle", cname) == 0) result = _SDL_SetWindowTitle;
 
 	return result;
 }
@@ -162,4 +164,16 @@ void _SDL_Delay(Dart_NativeArguments args) {
 		ms = 1;
 
 	SDL_Delay(ms);
+}
+
+void _SDL_SetWindowTitle(Dart_NativeArguments args) {
+	const char* title;
+
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+
+	void* peer = NULL;
+	Dart_Handle titleString = HandleError(Dart_GetNativeStringArgument(args, 1, &peer));
+	HandleError(Dart_StringToCString(titleString, &title));
+
+	window.SetWindowTitle(title);
 }

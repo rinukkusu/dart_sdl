@@ -30,6 +30,11 @@ struct SDL_WindowWrapper2 {
 	{
 		SDL_RenderPresent(renderer);
 	}
+
+	void SetWindowTitle(const char* title) 
+	{
+		SDL_SetWindowTitle(window, title);
+	}
 } SDL_WindowWrapper2_t;
 
 SDL_WindowWrapper2* g_wrapperArray;
