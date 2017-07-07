@@ -313,6 +313,8 @@
     <ClInclude Include="..\external\SDL2-2.0.5-src\src\video\windows\SDL_windowswindow.h" />
     <ClInclude Include="..\external\SDL2-2.0.5-src\src\video\windows\wmmsg.h" />
     <ClInclude Include="..\external\SDL2-2.0.5-src\VisualC\SDL\resource.h" />
+    <ClInclude Include="sdl_method_map.h" />
+    <ClInclude Include="sdl_misc.h" />
     <ClInclude Include="SDL_WindowWrapper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +447,8 @@
     <ClCompile Include="..\external\SDL2-2.0.5-src\src\video\windows\SDL_windowsvideo.c" />
     <ClCompile Include="..\external\SDL2-2.0.5-src\src\video\windows\SDL_windowswindow.c" />
     <ClCompile Include="sdl_extension.cpp" />
+    <ClCompile Include="sdl_method_map.cpp" />
+    <ClCompile Include="sdl_misc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\external\SDL2-2.0.5-src\src\main\windows\version.rc" />

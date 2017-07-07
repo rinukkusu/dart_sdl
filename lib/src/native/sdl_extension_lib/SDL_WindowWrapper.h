@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _sdl_windowwrapper_h
+#define _sdl_windowwrapper_h
 
 #include <SDL.h>
 
@@ -35,6 +36,6 @@ struct SDL_WindowWrapper2 {
 	{
 		SDL_SetWindowTitle(window, title);
 	}
-} SDL_WindowWrapper2_t;
+};
 
-SDL_WindowWrapper2* g_wrapperArray;
+#endif // _sdl_windowwrapper_h

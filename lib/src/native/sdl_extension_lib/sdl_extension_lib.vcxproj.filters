@@ -492,6 +492,12 @@
     <ClInclude Include="SDL_WindowWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sdl_method_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdl_misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\SDL2-2.0.5-src\src\libm\e_atan2.c">
@@ -879,6 +885,12 @@
       <Filter>SDL</Filter>
     </ClCompile>
     <ClCompile Include="sdl_extension.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sdl_method_map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sdl_misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
