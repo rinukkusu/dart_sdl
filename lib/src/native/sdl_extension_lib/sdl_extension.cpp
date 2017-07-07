@@ -32,11 +32,6 @@ Dart_Handle HandleError(Dart_Handle handle) {
 	return handle;
 }
 
-void Test(Dart_NativeArguments arguments) {
-	Dart_Handle result = HandleError(Dart_NewInteger(5));
-	Dart_SetReturnValue(arguments, result);
-}
-
 Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_scope)
 {
 	// If we fail, we return NULL, and Dart throws an exception.
@@ -52,23 +47,27 @@ Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_sc
 	if (strcmp("SDL_RenderPresent", cname) == 0) result = _SDL_RenderPresent;
 
 	return result;
+
+	return NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
-SDL_WindowWrapper* GetWindowFromArgs(Dart_NativeArguments args) {
+SDL_WindowWrapper2 GetWindowFromArgs(Dart_NativeArguments args) {
 	int64_t index = 0;
 
 	HandleError(Dart_GetNativeIntegerArgument(args, 0, &index));
 
-	return SDL_WindowWrapper::GetWindow(index);
+	return g_wrapperArray[index];
 }
 
 void _SDL_Init(Dart_NativeArguments args) {
 	int64_t flags = 0;
 	HandleError(Dart_GetNativeIntegerArgument(args, 0, &flags));
 	SDL_Init(flags);
+
+	g_wrapperArray = (SDL_WindowWrapper2*)SDL_calloc(10, sizeof(SDL_WindowWrapper2));
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(true)));
 }
@@ -92,8 +91,13 @@ void _SDL_CreateWindow(Dart_NativeArguments args) {
 	bool success = window != NULL;
 
 	if (success) {
-		auto wrapper = std::make_shared<SDL_WindowWrapper>(window);
-		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(wrapper->GetIndex())));
+		//auto wrapper = std::make_shared<SDL_WindowWrapper>(window);
+		//Dart_SetReturnValue(args, HandleError(Dart_NewInteger(wrapper->GetIndex())));
+		struct SDL_WindowWrapper2 w = SDL_WindowWrapper2_t;
+		w.window = window;
+		w.renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+		g_wrapperArray[0] = w;
+		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(0)));
 	}
 	else {
 		Dart_SetReturnValue(args, HandleError(Dart_NewApiError("Couldn't create SDL window.")));
@@ -101,15 +105,15 @@ void _SDL_CreateWindow(Dart_NativeArguments args) {
 }
 
 void _SDL_RenderClear(Dart_NativeArguments args) {
-	SDL_WindowWrapper* window = GetWindowFromArgs(args);
-	bool result = window->Clear();
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	bool result = window.Clear();
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }
 
 void _SDL_RenderPresent(Dart_NativeArguments args) {
-	SDL_WindowWrapper* window = GetWindowFromArgs(args);
-	window->Present();
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	window.Present();
 }
 
 void _SDL_SetRenderDrawColor(Dart_NativeArguments args) {
@@ -119,8 +123,8 @@ void _SDL_SetRenderDrawColor(Dart_NativeArguments args) {
 	HandleError(Dart_GetNativeIntegerArgument(args, 3, &b));
 	HandleError(Dart_GetNativeIntegerArgument(args, 4, &a));
 
-	SDL_WindowWrapper* window = GetWindowFromArgs(args);
-	bool result = window->SetColor(r, g, b, a);
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	bool result = window.SetColor(r, g, b, a);
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }

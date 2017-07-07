@@ -881,9 +881,6 @@
     <ClCompile Include="sdl_extension.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SDL_WindowWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\external\SDL2-2.0.5-src\src\main\windows\version.rc">

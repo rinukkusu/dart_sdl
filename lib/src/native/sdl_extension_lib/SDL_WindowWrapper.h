@@ -2,29 +2,34 @@
 
 #include <SDL.h>
 
-class SDL_WindowWrapper
-{
-public:
-	SDL_WindowWrapper(SDL_Window*);
-	~SDL_WindowWrapper();
+#define MAX_WINDOW_COUNT 10
 
-	bool SetColor(int r, int g, int b, int a = SDL_ALPHA_OPAQUE);
-	bool DrawLine(int x1, int y1, int x2, int y2);
-	bool Clear();
-	void Present();
+struct SDL_WindowWrapper2 {
+	SDL_Window* window;
+	SDL_Renderer* renderer;
 
-	static SDL_WindowWrapper* GetWindow(int index);
-	int GetIndex() { return m_windowIndex; }
+	bool SetColor(int r, int g, int b, int a)
+	{
+		int result = SDL_SetRenderDrawColor(renderer, r, g, b, a);
+		return result == 0;
+	}
 
-	const static int MAX_WINDOW_COUNT;
+	bool DrawLine(int x1, int y1, int x2, int y2)
+	{
+		int result = SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+		return result == 0;
+	}
 
-private:
-	static SDL_WindowWrapper** m_lWindows;
-	static int m_windowCount;
+	bool Clear()
+	{
+		int result = SDL_RenderClear(renderer);
+		return result == 0;
+	}
 
-	int m_windowIndex;
+	void Present()
+	{
+		SDL_RenderPresent(renderer);
+	}
+} SDL_WindowWrapper2_t;
 
-	SDL_Window* m_pWindow;
-	SDL_Renderer* m_pRenderer;
-};
-
+SDL_WindowWrapper2* g_wrapperArray;

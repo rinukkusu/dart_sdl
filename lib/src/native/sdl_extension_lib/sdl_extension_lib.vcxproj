@@ -445,7 +445,6 @@
     <ClCompile Include="..\external\SDL2-2.0.5-src\src\video\windows\SDL_windowsvideo.c" />
     <ClCompile Include="..\external\SDL2-2.0.5-src\src\video\windows\SDL_windowswindow.c" />
     <ClCompile Include="sdl_extension.cpp" />
-    <ClCompile Include="SDL_WindowWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\external\SDL2-2.0.5-src\src\main\windows\version.rc" />

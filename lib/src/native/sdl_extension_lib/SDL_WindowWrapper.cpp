@@ -6,7 +6,7 @@ int SDL_WindowWrapper::m_windowCount = 0;
 
 SDL_WindowWrapper::SDL_WindowWrapper(SDL_Window* window)
 {
-	m_windowIndex = -1;
+	/*m_windowIndex = -1;
 
 	if (SDL_WindowWrapper::m_lWindows == NULL) {
 		SDL_WindowWrapper::m_lWindows = (SDL_WindowWrapper**) calloc(sizeof(SDL_WindowWrapper*), SDL_WindowWrapper::MAX_WINDOW_COUNT);
@@ -18,7 +18,7 @@ SDL_WindowWrapper::SDL_WindowWrapper(SDL_Window* window)
 	SDL_WindowWrapper::m_pWindow = window;
 	SDL_WindowWrapper::m_lWindows[m_windowIndex] = this;
 
-	m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED);
+	m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED);*/
 }
 
 SDL_WindowWrapper::~SDL_WindowWrapper()
