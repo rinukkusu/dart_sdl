@@ -14,6 +14,7 @@ void _SDL_CreateWindow(Dart_NativeArguments args);
 void _SDL_RenderClear(Dart_NativeArguments args);
 void _SDL_SetRenderDrawColor(Dart_NativeArguments args);
 void _SDL_RenderPresent(Dart_NativeArguments args);
+void _SDL_PollEvent(Dart_NativeArguments args);
 
 // The name of the initialization function is the extension name followed
 // by _Init.
@@ -45,6 +46,7 @@ Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_sc
 	if (strcmp("SDL_RenderClear", cname) == 0) result = _SDL_RenderClear;
 	if (strcmp("SDL_SetRenderDrawColor", cname) == 0) result = _SDL_SetRenderDrawColor;
 	if (strcmp("SDL_RenderPresent", cname) == 0) result = _SDL_RenderPresent;
+	if (strcmp("SDL_PollEvent", cname) == 0) result = _SDL_PollEvent;
 
 	return result;
 
@@ -127,4 +129,18 @@ void _SDL_SetRenderDrawColor(Dart_NativeArguments args) {
 	bool result = window.SetColor(r, g, b, a);
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
+}
+
+void _SDL_PollEvent(Dart_NativeArguments args) {
+	SDL_Event event;
+	if (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_WINDOWEVENT:
+			break;
+		case SDL_MOUSEMOTION:
+			break;
+		}
+
+		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(event.type)));
+	}
 }
