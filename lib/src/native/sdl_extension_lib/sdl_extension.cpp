@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <Windows.h>
 #include <dart_api.h>
 #include <dart_native_api.h>
 #include <SDL.h>
@@ -9,12 +10,14 @@
 // Forward declaration of ResolveName function.
 Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool* auto_setup_scope);
 
+void _GetCurrentThreadId(Dart_NativeArguments args);
 void _SDL_Init(Dart_NativeArguments args);
 void _SDL_CreateWindow(Dart_NativeArguments args);
 void _SDL_RenderClear(Dart_NativeArguments args);
 void _SDL_SetRenderDrawColor(Dart_NativeArguments args);
 void _SDL_RenderPresent(Dart_NativeArguments args);
 void _SDL_PollEvent(Dart_NativeArguments args);
+void _SDL_Delay(Dart_NativeArguments args);
 
 // The name of the initialization function is the extension name followed
 // by _Init.
@@ -41,20 +44,26 @@ Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_sc
 	const char* cname;
 	HandleError(Dart_StringToCString(name, &cname));
 
+	if (strcmp("GetCurrentThreadId", cname) == 0) result = _GetCurrentThreadId;
+
 	if (strcmp("SDL_Init", cname) == 0) result = _SDL_Init;
 	if (strcmp("SDL_CreateWindow", cname) == 0) result = _SDL_CreateWindow;
 	if (strcmp("SDL_RenderClear", cname) == 0) result = _SDL_RenderClear;
 	if (strcmp("SDL_SetRenderDrawColor", cname) == 0) result = _SDL_SetRenderDrawColor;
 	if (strcmp("SDL_RenderPresent", cname) == 0) result = _SDL_RenderPresent;
 	if (strcmp("SDL_PollEvent", cname) == 0) result = _SDL_PollEvent;
+	if (strcmp("SDL_Delay", cname) == 0) result = _SDL_Delay;
 
 	return result;
-
-	return NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
+
+void _GetCurrentThreadId(Dart_NativeArguments args) {
+	uint64_t threadId = GetCurrentThreadId();
+	Dart_SetReturnValue(args, HandleError(Dart_NewIntegerFromUint64(threadId)));
+}
 
 SDL_WindowWrapper2 GetWindowFromArgs(Dart_NativeArguments args) {
 	int64_t index = 0;
@@ -143,4 +152,14 @@ void _SDL_PollEvent(Dart_NativeArguments args) {
 
 		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(event.type)));
 	}
+}
+
+void _SDL_Delay(Dart_NativeArguments args) {
+	int64_t ms = 1;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 0, &ms));
+	if (ms <= 0)
+		ms = 1;
+
+	SDL_Delay(ms);
 }

@@ -5,18 +5,25 @@ import '../lib/dart_sdl.dart';
 import 'dart:async';
 import 'dart:math';
 
-main() async {
+main() {
   var initialized = SDL_Init(SDL_INIT_VIDEO);
   print('initialized: ${initialized}');
 
   var window = SDL_CreateWindow("Test", 30, 30, 100, 100, SDL_WINDOW_OPENGL);
   print('windowCreated: ${window}');
+
+  var threadId = GetCurrentThreadId();
+  print('current thread: ${threadId}');
   
   Random rand = new Random();
-  
+
   while(true) {
-    var event = SDL_PollEvent(window);
-    if (event != null) {
+    var currentThreadId = GetCurrentThreadId();
+    if (currentThreadId != threadId)
+      print("THREAD CHANGED!!! $threadId -> $currentThreadId");
+
+    var event;
+    while ((event = SDL_PollEvent(window)) != null) {
       print('${new DateTime.now()}: $event');
     }
 
@@ -24,6 +31,6 @@ main() async {
     SDL_RenderClear(window);
     SDL_RenderPresent(window);
 
-    await new Future.delayed(new Duration(milliseconds: 17));
+    SDL_Delay(1);
   }
 }

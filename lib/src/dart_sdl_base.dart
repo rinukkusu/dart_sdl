@@ -6,6 +6,7 @@ import 'dart-ext:sdl_extension';
 num SDL_INIT_VIDEO = 32;
 num SDL_WINDOW_OPENGL = 2;
 
+int GetCurrentThreadId() native "GetCurrentThreadId";
 bool SDL_Init(int flags) native "SDL_Init";
 int SDL_CreateWindow(String title, int x, int y, int w, int h, int flags)
     native "SDL_CreateWindow";
@@ -14,3 +15,4 @@ bool SDL_SetRenderDrawColor(int window, int r, int g, int b, int a)
 bool SDL_RenderClear(int window) native "SDL_RenderClear";
 void SDL_RenderPresent(int window) native "SDL_RenderPresent";
 int SDL_PollEvent(int window) native "SDL_PollEvent";
+void SDL_Delay(int ms) native "SDL_Delay";
