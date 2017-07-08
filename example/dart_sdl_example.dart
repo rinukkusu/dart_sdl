@@ -22,8 +22,9 @@ main() {
 
   while(true) {
     var currentThreadId = GetCurrentThreadId();
-    if (currentThreadId != threadId)
-      print("THREAD CHANGED!!! $threadId -> $currentThreadId");
+    if (currentThreadId != threadId) {
+      throw "THREAD CHANGED!!! $threadId -> $currentThreadId";
+    }
 
     var event;
     while ((event = SDL_PollEvent(window)) != null) {
