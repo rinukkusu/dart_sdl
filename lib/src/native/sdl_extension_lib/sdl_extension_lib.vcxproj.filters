@@ -501,7 +501,10 @@
     <ClInclude Include="sdl_misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="picojson.h">
+    <ClInclude Include="sdl_event_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
       <Filter>JSON</Filter>
     </ClInclude>
   </ItemGroup>
@@ -897,6 +900,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sdl_misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sdl_event_map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

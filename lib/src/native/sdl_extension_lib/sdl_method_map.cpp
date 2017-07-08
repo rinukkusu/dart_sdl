@@ -1,6 +1,6 @@
 #include <Windows.h>
 #include <dart_api.h>
-#include "picojson.h"
+#include "sdl_event_map.h"
 #include "sdl_misc.h"
 #include "SDL_WindowWrapper.h"
 #include "sdl_method_map.h"
@@ -92,14 +92,9 @@ void _SDL_SetRenderDrawColor(Dart_NativeArguments args) {
 void _SDL_PollEvent(Dart_NativeArguments args) {
 	SDL_Event event;
 	if (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		case SDL_WINDOWEVENT:
-			break;
-		case SDL_MOUSEMOTION:
-			break;
-		}
+		const char* json = EncodeEvent(&event);
 
-		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(event.type)));
+		Dart_SetReturnValue(args, HandleError(Dart_NewStringFromCString(json)));
 	}
 }
 
