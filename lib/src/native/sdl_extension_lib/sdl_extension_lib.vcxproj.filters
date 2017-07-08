@@ -19,6 +19,9 @@
     <Filter Include="SDL\API Headers">
       <UniqueIdentifier>{87ab571b-2514-4d29-8eea-aa062b91d67b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="JSON">
+      <UniqueIdentifier>{17d7f5ac-81c3-43b3-a1a0-80284c846851}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\SDL2-2.0.5-src\src\events\blank_cursor.h">
@@ -497,6 +500,9 @@
     </ClInclude>
     <ClInclude Include="sdl_misc.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="picojson.h">
+      <Filter>JSON</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

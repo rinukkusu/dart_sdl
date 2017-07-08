@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <dart_api.h>
+#include "picojson.h"
 #include "sdl_misc.h"
 #include "SDL_WindowWrapper.h"
 #include "sdl_method_map.h"
