@@ -95,6 +95,8 @@ void _SDL_PollEvent(Dart_NativeArguments args) {
 		const char* json = EncodeEvent(&event);
 
 		Dart_SetReturnValue(args, HandleError(Dart_NewStringFromCString(json)));
+
+		SDL_free((void*)json);
 	}
 }
 

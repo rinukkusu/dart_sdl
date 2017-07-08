@@ -48,6 +48,9 @@ const char* EncodeEvent(SDL_Event* event) {
 		break;
 	}
 	
-	return o.serialize();
+	const char* value = o.serialize();
+	o.free();
+
+	return value;
 }
 

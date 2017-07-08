@@ -90,7 +90,9 @@ struct json_object {
 
 			strcat(str, ":");
 
-			strcat(str, j_value.value());
+			char* value = j_value.value();
+			strcat(str, value);
+			SDL_free(value);
 
 			if (i != count - 1)
 				strcat(str, ",");
@@ -100,6 +102,11 @@ struct json_object {
 
 
 		return str;
+	}
+
+	void free() {
+		SDL_free(keys);
+		SDL_free(values);
 	}
 } json_object_t;
 
