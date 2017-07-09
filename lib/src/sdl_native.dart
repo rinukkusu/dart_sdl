@@ -14,3 +14,6 @@ void SDL_RenderPresent(int window) native "SDL_RenderPresent";
 String SDL_PollEvent(int window) native "SDL_PollEvent";
 void SDL_Delay(int ms) native "SDL_Delay";
 void SDL_SetWindowTitle(int window, String title) native "SDL_SetWindowTitle";
+bool SDL_RenderDrawPoint(int window, int x, int y) native "SDL_RenderDrawPoint";
+bool SDL_RenderDrawLine(int window, int x1, int y1, int x2, int y2) native "SDL_RenderDrawLine";
+bool SDL_ShowCursor(int toggle) native "SDL_ShowCursor";

@@ -36,6 +36,12 @@ struct SDL_WindowWrapper2 {
 	{
 		SDL_SetWindowTitle(window, title);
 	}
+
+	bool DrawPoint(int x, int y) 
+	{
+		int result = SDL_RenderDrawPoint(renderer, x, y);
+		return result == 0;
+	}
 };
 
 #endif // _sdl_windowwrapper_h

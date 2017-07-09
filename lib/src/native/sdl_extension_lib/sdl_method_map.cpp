@@ -122,6 +122,42 @@ void _SDL_SetWindowTitle(Dart_NativeArguments args) {
 	window.SetWindowTitle(title);
 }
 
+void _SDL_RenderDrawPoint(Dart_NativeArguments args) {
+	int64_t x, y = 0;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 1, &x));
+	HandleError(Dart_GetNativeIntegerArgument(args, 2, &y));
+
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	bool result = window.DrawPoint(x, y);
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
+}
+
+void _SDL_RenderDrawLine(Dart_NativeArguments args) {
+	int64_t x1, y1, x2, y2 = 0;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 1, &x1));
+	HandleError(Dart_GetNativeIntegerArgument(args, 2, &y1));
+	HandleError(Dart_GetNativeIntegerArgument(args, 3, &x2));
+	HandleError(Dart_GetNativeIntegerArgument(args, 4, &y2));
+
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	bool result = window.DrawLine(x1, y1, x2, y2);
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
+}
+
+void _SDL_ShowCursor(Dart_NativeArguments args) {
+	int64_t toggle = 0;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 0, &toggle));
+
+	bool result = SDL_ShowCursor(toggle) == SDL_ENABLE;
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -139,6 +175,9 @@ Dart_NativeFunction GetMethod(const char * title)
 	if (strcmp("SDL_PollEvent", title) == 0) result = _SDL_PollEvent;
 	if (strcmp("SDL_Delay", title) == 0) result = _SDL_Delay;
 	if (strcmp("SDL_SetWindowTitle", title) == 0) result = _SDL_SetWindowTitle;
+	if (strcmp("SDL_RenderDrawPoint", title) == 0) result = _SDL_RenderDrawPoint;
+	if (strcmp("SDL_RenderDrawLine", title) == 0) result = _SDL_RenderDrawLine;
+	if (strcmp("SDL_ShowCursor", title) == 0) result = _SDL_ShowCursor;
 
 	return result;
 }

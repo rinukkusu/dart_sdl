@@ -18,7 +18,7 @@ bool SDL_SetRenderDrawColor(int window, int r, int g, int b, int a) =>
 
 bool SDL_RenderClear(int window) => sdl.SDL_RenderClear(window);
 
-void SDL_RenderPresent(int window) => sdl.SDL_RenderClear(window);
+void SDL_RenderPresent(int window) => sdl.SDL_RenderPresent(window);
 
 SDL_CommonEvent SDL_PollEvent(int window) {
     var event = sdl.SDL_PollEvent(window);
@@ -38,3 +38,9 @@ SDL_CommonEvent SDL_PollEvent(int window) {
 void SDL_Delay(int ms) => sdl.SDL_Delay(ms);
 
 void SDL_SetWindowTitle(int window, String title) => sdl.SDL_SetWindowTitle(window, title);
+
+bool SDL_RenderDrawPoint(int window, int x, int y) => sdl.SDL_RenderDrawPoint(window, x, y);
+
+bool SDL_RenderDrawLine(int window, int x1, int y1, int x2, int y2) => sdl.SDL_RenderDrawLine(window, x1, y1, x2, y2);
+
+bool SDL_ShowCursor(int toggle) => sdl.SDL_ShowCursor(toggle);

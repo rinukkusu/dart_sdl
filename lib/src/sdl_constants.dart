@@ -1,6 +1,11 @@
 // Copyright (c) 2017, 'rinukkusu'. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
+// Misc
+const int SDL_ENABLE = 1;
+const int SDL_DISABLE = 0;
+const int SDL_QUERY = -1;
+
 // Subsystem Initialization
 const int SDL_INIT_TIMER = 1;
 const int SDL_INIT_AUDIO = 16;
