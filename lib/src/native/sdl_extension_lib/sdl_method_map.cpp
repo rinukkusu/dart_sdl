@@ -4,6 +4,7 @@
 #include "sdl_misc.h"
 #include "SDL_WindowWrapper.h"
 #include "sdl_method_map.h"
+#include "ttf_method_map.h"
 
 SDL_WindowWrapper2* g_wrapperArray;
 struct SDL_WindowWrapper2 SDL_WindowWrapper2_t;
@@ -178,6 +179,11 @@ Dart_NativeFunction GetMethod(const char * title)
 	if (strcmp("SDL_RenderDrawPoint", title) == 0) result = _SDL_RenderDrawPoint;
 	if (strcmp("SDL_RenderDrawLine", title) == 0) result = _SDL_RenderDrawLine;
 	if (strcmp("SDL_ShowCursor", title) == 0) result = _SDL_ShowCursor;
+
+	// search in ttf library for method
+	if (result == NULL) {
+		result = TTF_GetMethod(title);
+	}
 
 	return result;
 }

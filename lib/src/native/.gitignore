@@ -157,3 +157,6 @@ $RECYCLE.BIN/
 !external/SDL2-2.0.5/
 !external/SDL2-2.0.5/lib/x64/
 !external/SDL2-2.0.5/lib/x86/
+!external/SDL2_ttf-2.0.14/
+!external/SDL2_ttf-2.0.14/lib/x64
+!external/SDL2_ttf-2.0.14/lib/x86
