@@ -2,5 +2,6 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 export 'sdl_methods.dart';
+export 'sdl_objects.dart';
 export 'sdl_constants.dart';
 export 'sdl_events.dart';

@@ -10,7 +10,7 @@ List<List<Point>> cursor = [
   [new Point(0, 15), new Point(0, 0)],
 ];
 
-int window;
+SDL_Window window;
 int threadId;
 
 Random rand = new Random();
@@ -25,21 +25,22 @@ main() {
 
   SDL_ShowCursor(SDL_DISABLE);
 
-  while(true) {
+  while (true) {
     checkThread();
     handleEvents();
     calcFps();
 
-    SDL_SetRenderDrawColor(window, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(window, SDL_Color.White);
     SDL_RenderClear(window);
 
-    SDL_SetRenderDrawColor(window, rand.nextInt(255), rand.nextInt(255), rand.nextInt(255), 255);
-    
+    //SDL_SetRenderDrawColor(window, rand.nextInt(255), rand.nextInt(255), rand.nextInt(255), 255);
+    SDL_SetRenderDrawColor(window, SDL_Color.Gray);
 
     cursor.forEach((p) {
-      SDL_RenderDrawLine(window, 
-          mousePos.x + p[0].x, mousePos.y + p[0].y,
-          mousePos.x + p[1].x, mousePos.y + p[1].y);
+      SDL_RenderDrawLine(
+          window,
+          new Point(mousePos.x + p[0].x, mousePos.y + p[0].y),
+          new Point(mousePos.x + p[1].x, mousePos.y + p[1].y));
     });
 
     SDL_RenderPresent(window);
@@ -51,8 +52,9 @@ void createWindow() {
   var initialized = SDL_Init(SDL_INIT_VIDEO);
   print('initialized: ${initialized}');
 
-  window = SDL_CreateWindow("Test", 30, 30, 800, 600, SDL_WINDOW_RESIZABLE);
-  print('windowCreated: ${window}');
+  window = SDL_CreateWindow(
+      "Test", new Rectangle(30, 30, 400, 300), SDL_WINDOW_RESIZABLE);
+  print('windowCreated: ${window.data}');
 
   threadId = GetCurrentThreadId();
   print('current thread: ${threadId}');
@@ -67,16 +69,16 @@ void checkThread() {
 
 void handleEvents() {
   SDL_CommonEvent event;
-    while ((event = SDL_PollEvent(window)) != null) {
-      print('${new DateTime.now()}: ${event.runtimeType}');
-      eventCount++;
+  while ((event = SDL_PollEvent(window)) != null) {
+    print('${new DateTime.now()}: ${event.runtimeType}');
+    eventCount++;
 
-      if (event is SDL_QuitEvent) throw 'QUIT! :)';
-      if (event is SDL_MouseMotionEvent) { 
-        SDL_MouseMotionEvent mouseEvent = event;
-        mousePos = new Point(mouseEvent.x,  mouseEvent.y); 
-      }
+    if (event is SDL_QuitEvent) throw 'QUIT! :)';
+    if (event is SDL_MouseMotionEvent) {
+      SDL_MouseMotionEvent mouseEvent = event;
+      mousePos = new Point(mouseEvent.x, mouseEvent.y);
     }
+  }
 }
 
 void calcFps() {
