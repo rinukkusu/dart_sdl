@@ -43,7 +43,7 @@ main() {
 
     clearWindow(SDL_Color.White);
 
-    SDL_RenderCopy(window, texture, null, new Rectangle(0, 0, texture.width, texture.height));
+    SDL_RenderCopy(window, texture, null, new Rectangle(10, 10, texture.width, texture.height));
     
     drawCursor();
 
