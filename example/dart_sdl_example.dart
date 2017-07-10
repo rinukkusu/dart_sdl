@@ -11,6 +11,7 @@ List<List<Point>> cursor = [
 ];
 
 SDL_Window window;
+TTF_Font font;
 int threadId;
 
 Random rand = new Random();
@@ -23,6 +24,16 @@ Point mousePos = new Point(0, 0);
 main() {
   createWindow();
 
+  var success = TTF_Init();
+  print('initialized TTF: ${success}');
+
+  font = TTF_OpenFont(r'arial.ttf', 14);
+  print('loaded font: ${font?.data}');
+
+  var surface = TTF_RenderText(font, "test", SDL_Color.Black);
+  var texture = SDL_CreateTextureFromSurface(window, surface);
+  SDL_FreeSurface(surface);
+
   SDL_ShowCursor(SDL_DISABLE);
 
   while (true) {
@@ -30,22 +41,31 @@ main() {
     handleEvents();
     calcFps();
 
-    SDL_SetRenderDrawColor(window, SDL_Color.White);
-    SDL_RenderClear(window);
+    clearWindow(SDL_Color.White);
 
-    //SDL_SetRenderDrawColor(window, rand.nextInt(255), rand.nextInt(255), rand.nextInt(255), 255);
-    SDL_SetRenderDrawColor(window, SDL_Color.Gray);
+    SDL_RenderCopy(window, texture, null, new Rectangle(0, 0, 100, 20));
 
-    cursor.forEach((p) {
-      SDL_RenderDrawLine(
-          window,
-          new Point(mousePos.x + p[0].x, mousePos.y + p[0].y),
-          new Point(mousePos.x + p[1].x, mousePos.y + p[1].y));
-    });
+    drawCursor();
 
     SDL_RenderPresent(window);
     SDL_Delay(1);
   }
+}
+
+void clearWindow(SDL_Color color) {
+  SDL_SetRenderDrawColor(window, color);
+  SDL_RenderClear(window);
+}
+
+void drawCursor() {
+  SDL_SetRenderDrawColor(window, SDL_Color.Gray);
+
+  cursor.forEach((p) {
+    SDL_RenderDrawLine(
+        window,
+        new Point(mousePos.x + p[0].x, mousePos.y + p[0].y),
+        new Point(mousePos.x + p[1].x, mousePos.y + p[1].y));
+  });
 }
 
 void createWindow() {
@@ -70,7 +90,7 @@ void checkThread() {
 void handleEvents() {
   SDL_CommonEvent event;
   while ((event = SDL_PollEvent(window)) != null) {
-    print('${new DateTime.now()}: ${event.runtimeType}');
+    //print('${new DateTime.now()}: ${event.runtimeType}');
     eventCount++;
 
     if (event is SDL_QuitEvent) throw 'QUIT! :)';

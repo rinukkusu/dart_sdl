@@ -37,3 +37,7 @@ abstract class SDL_Surface {
 abstract class SDL_Texture {
   num data;
 }
+
+abstract class TTF_Font {
+  num data;
+}

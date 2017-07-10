@@ -159,12 +159,76 @@ void _SDL_ShowCursor(Dart_NativeArguments args) {
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }
 
+void _SDL_CreateTextureFromSurface(Dart_NativeArguments args) {
+	int64_t surfacePtr = 0;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 1, &surfacePtr));
+
+	SDL_Surface* surface = reinterpret_cast<SDL_Surface*>(surfacePtr);
+
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	SDL_Texture* texture = window.CreateTextureFromSurface(surface);
+
+	uint64_t texturePtr = reinterpret_cast<uint64_t>(texture);
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewInteger(texturePtr)));
+}
+
+void _SDL_RenderCopy(Dart_NativeArguments args) {
+	int64_t texturePtr = 0;
+
+	int64_t src_x, src_y, src_w, src_h;
+	int64_t dst_x, dst_y, dst_w, dst_h;
+
+	HandleError(Dart_GetNativeIntegerArgument(args, 1, &texturePtr));
+	HandleError(Dart_GetNativeIntegerArgument(args, 2, &src_x));
+	HandleError(Dart_GetNativeIntegerArgument(args, 3, &src_y));
+	HandleError(Dart_GetNativeIntegerArgument(args, 4, &src_w));
+	HandleError(Dart_GetNativeIntegerArgument(args, 5, &src_h));
+	HandleError(Dart_GetNativeIntegerArgument(args, 6, &dst_x));
+	HandleError(Dart_GetNativeIntegerArgument(args, 7, &dst_y));
+	HandleError(Dart_GetNativeIntegerArgument(args, 8, &dst_w));
+	HandleError(Dart_GetNativeIntegerArgument(args, 9, &dst_h));
+
+	SDL_Texture* texture = reinterpret_cast<SDL_Texture*>(texturePtr);
+
+	SDL_Rect* src = NULL;
+	if (src_x || src_y || src_w || src_h) {
+		SDL_Rect srcRect;
+		srcRect.x = src_x;
+		srcRect.y = src_y;
+		srcRect.w = src_w;
+		srcRect.h = src_h;
+
+		src = &srcRect;
+	}
+
+	SDL_Rect dst;
+	dst.x = dst_x;
+	dst.y = dst_y;
+	dst.w = dst_w;
+	dst.h = dst_h;
+
+	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
+	bool result = window.RenderCopy(texture, src, &dst);
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
+}
+
+void _SDL_FreeSurface(Dart_NativeArguments args) {
+	int64_t surfacePtr = 0;
+
+	SDL_Surface* surface = reinterpret_cast<SDL_Surface*>(surfacePtr);
+
+	SDL_FreeSurface(surface);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 Dart_NativeFunction GetMethod(const char * title)
 {
-	Dart_NativeFunction result;
+	Dart_NativeFunction result = NULL;
 
 	if (strcmp("GetCurrentThreadId", title) == 0) result = _GetCurrentThreadId;
 
@@ -179,6 +243,9 @@ Dart_NativeFunction GetMethod(const char * title)
 	if (strcmp("SDL_RenderDrawPoint", title) == 0) result = _SDL_RenderDrawPoint;
 	if (strcmp("SDL_RenderDrawLine", title) == 0) result = _SDL_RenderDrawLine;
 	if (strcmp("SDL_ShowCursor", title) == 0) result = _SDL_ShowCursor;
+	if (strcmp("SDL_CreateTextureFromSurface", title) == 0) result = _SDL_CreateTextureFromSurface;
+	if (strcmp("SDL_RenderCopy", title) == 0) result = _SDL_RenderCopy;
+	if (strcmp("SDL_FreeSurface", title) == 0) result = _SDL_FreeSurface;
 
 	// search in ttf library for method
 	if (result == NULL) {

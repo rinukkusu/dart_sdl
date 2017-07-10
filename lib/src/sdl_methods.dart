@@ -16,7 +16,7 @@ bool SDL_Init(int flags) => sdl.SDL_Init(flags);
 SDL_Window SDL_CreateWindow(String title, Rectangle rect, int flags) {
   var pointer = sdl.SDL_CreateWindow(
       title, rect.left, rect.top, rect.width, rect.height, flags);
-  return new SDL_Window_Native(pointer);
+  return pointer >= 0 ? new SDL_Window_Native(pointer) : null;
 }
 
 bool SDL_SetRenderDrawColor(SDL_Window window, SDL_Color color) =>
@@ -57,3 +57,39 @@ bool SDL_RenderDrawLine(SDL_Window window, Point p1, Point p2) =>
     sdl.SDL_RenderDrawLine(window.data, p1.x, p1.y, p2.x, p2.y);
 
 bool SDL_ShowCursor(int toggle) => sdl.SDL_ShowCursor(toggle);
+
+SDL_Texture SDL_CreateTextureFromSurface(
+    SDL_Window window, SDL_Surface surface) {
+  var pointer = sdl.SDL_CreateTextureFromSurface(window.data, surface.data);
+  return new SDL_Texture_Native(pointer);
+}
+
+bool SDL_RenderCopy(
+        SDL_Window window, SDL_Texture texture, Rectangle src, Rectangle dst) =>
+    sdl.SDL_RenderCopy(
+        window.data,
+        texture.data,
+        src?.left ?? 0,
+        src?.top ?? 0,
+        src?.width ?? 0,
+        src?.height ?? 0,
+        dst.left,
+        dst.top,
+        dst.width,
+        dst.height);
+
+void SDL_FreeSurface(SDL_Surface surface) => sdl.SDL_FreeSurface(surface.data);
+
+// TTF
+bool TTF_Init() => sdl.TTF_Init();
+
+TTF_Font TTF_OpenFont(String filePath, int fontSize) {
+  var pointer = sdl.TTF_OpenFont(filePath, fontSize);
+  return pointer >= 0 ? new TTF_Font_Native(pointer) : null;
+}
+
+SDL_Surface TTF_RenderText(TTF_Font font, String text, SDL_Color color) {
+  var pointer =
+      sdl.TTF_RenderText(font.data, text, color.r, color.b, color.g, color.a);
+  return pointer >= 0 ? new SDL_Surface_Native(pointer) : null;
+}

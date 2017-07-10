@@ -42,6 +42,15 @@ struct SDL_WindowWrapper2 {
 		int result = SDL_RenderDrawPoint(renderer, x, y);
 		return result == 0;
 	}
+
+	SDL_Texture* CreateTextureFromSurface(SDL_Surface* surface) {
+		return SDL_CreateTextureFromSurface(renderer, surface);
+	}
+
+	bool RenderCopy(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst) {
+		int result = SDL_RenderCopy(renderer, texture, src, dst);
+		return result == 0;
+	}
 };
 
 #endif // _sdl_windowwrapper_h

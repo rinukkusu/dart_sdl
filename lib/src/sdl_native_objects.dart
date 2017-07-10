@@ -17,3 +17,9 @@ class SDL_Texture_Native implements SDL_Texture {
 
   SDL_Texture_Native(this.data);
 }
+
+class TTF_Font_Native implements TTF_Font {
+  num data;
+
+  TTF_Font_Native(this.data);
+}

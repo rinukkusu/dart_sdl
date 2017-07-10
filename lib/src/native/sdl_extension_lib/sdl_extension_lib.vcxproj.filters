@@ -36,6 +36,9 @@
     <ClInclude Include="ttf_method_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sdl_ptrlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sdl_extension.cpp">
