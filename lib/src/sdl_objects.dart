@@ -40,8 +40,10 @@ abstract class SDL_Surface {
 
 abstract class SDL_Texture {
   final num data;
+  final num height;
+  final num width;
 
-  SDL_Texture(this.data);
+  SDL_Texture(this.data, this.height, this.width);
 }
 
 abstract class TTF_Font {
@@ -49,3 +51,5 @@ abstract class TTF_Font {
 
   TTF_Font(this.data);
 }
+
+abstract class SDL_TextureInfo {}

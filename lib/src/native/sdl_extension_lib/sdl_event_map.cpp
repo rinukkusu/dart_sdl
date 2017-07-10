@@ -28,7 +28,7 @@ void EncodeSubEvent(json_object* o, SDL_MouseMotionEvent* event) {
 
 
 const char* EncodeEvent(SDL_Event* event) {
-	json_object o = json_object_t;
+	json_object o = {};
 	o.init();
 
 	o.add("type", event->type);

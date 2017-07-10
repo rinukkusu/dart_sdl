@@ -5,6 +5,7 @@
 #include "SDL_WindowWrapper.h"
 #include "sdl_method_map.h"
 #include "ttf_method_map.h"
+#include "json.h"
 
 SDL_WindowWrapper2* g_wrapperArray;
 struct SDL_WindowWrapper2 SDL_WindowWrapper2_t;
@@ -169,9 +170,26 @@ void _SDL_CreateTextureFromSurface(Dart_NativeArguments args) {
 	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
 	SDL_Texture* texture = window.CreateTextureFromSurface(surface);
 
-	uint64_t texturePtr = reinterpret_cast<uint64_t>(texture);
+	int width; int height;
+	SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 
-	Dart_SetReturnValue(args, HandleError(Dart_NewInteger(texturePtr)));
+	uint64_t texturePtr = reinterpret_cast<uint64_t>(texture);
+	std::string ptrString = std::to_string(texturePtr);
+
+	// render to json
+	json_object o = {};
+	o.init();
+
+	o.add("data", ptrString.c_str());
+	o.add("width", width);
+	o.add("height", height);
+
+	const char* json = o.serialize();
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewStringFromCString(json)));
+
+	o.free();
+	SDL_free((void*)json);
 }
 
 void _SDL_RenderCopy(Dart_NativeArguments args) {

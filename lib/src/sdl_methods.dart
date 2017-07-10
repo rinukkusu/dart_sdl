@@ -60,8 +60,9 @@ bool SDL_ShowCursor(int toggle) => sdl.SDL_ShowCursor(toggle);
 
 SDL_Texture SDL_CreateTextureFromSurface(
     SDL_Window window, SDL_Surface surface) {
-  var pointer = sdl.SDL_CreateTextureFromSurface(window.data, surface.data);
-  return new SDL_Texture_Native(pointer);
+  String json = sdl.SDL_CreateTextureFromSurface(window.data, surface.data);
+
+  return new SDL_Texture_Native(json);
 }
 
 bool SDL_RenderCopy(

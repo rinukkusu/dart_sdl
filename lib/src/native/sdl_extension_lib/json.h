@@ -42,24 +42,24 @@ struct json_value {
 
 		return value;
 	}
-} json_value_t;
+};
 
 struct json_object {
 	const char** keys;
-	json_value* values;
+	json_value** values;
 	int count;
 
 	void init() {
 		count = 0;
 		keys = (const char**)SDL_calloc(sizeof(const char*), 100);
-		values = (json_value*)SDL_calloc(sizeof(json_value), 100);
+		values = (json_value**)SDL_calloc(sizeof(json_value*), 100);
 	}
 
 	void add(const char* key, const char* s) {
 		keys[count] = key;
 
-		json_value value = json_value_t;
-		value.set_string(s);
+		json_value* value = (json_value*)SDL_calloc(1, sizeof(json_value));
+		value->set_string(s);
 		values[count] = value;
 
 		count++;
@@ -68,8 +68,8 @@ struct json_object {
 	void add(const char* key, int i) {
 		keys[count] = key;
 
-		json_value value = json_value_t;
-		value.set_number(i);
+		json_value* value = (json_value*)SDL_calloc(1, sizeof(json_value));
+		value->set_number(i);
 		values[count] = value;
 
 		count++;
@@ -82,7 +82,7 @@ struct json_object {
 
 		for (int i = 0; i < count; i++) {
 			const char* key = keys[i];
-			json_value j_value = values[i];
+			json_value* j_value = values[i];
 
 			strcat(str, "\"");
 			strcat(str, key);
@@ -90,7 +90,7 @@ struct json_object {
 
 			strcat(str, ":");
 
-			char* value = j_value.value();
+			char* value = j_value->value();
 			strcat(str, value);
 			SDL_free(value);
 
@@ -106,9 +106,14 @@ struct json_object {
 
 	void free() {
 		SDL_free(keys);
+
+		for (int i = 0; i < count; i++) {
+			SDL_free(values[i]);
+		}
+
 		SDL_free(values);
 	}
-} json_object_t;
+};
 
 
 #endif // _json_h

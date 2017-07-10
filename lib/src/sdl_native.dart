@@ -20,7 +20,7 @@ bool SDL_RenderDrawPoint(int windowPtr, int x, int y)
 bool SDL_RenderDrawLine(int windowPtr, int x1, int y1, int x2, int y2)
     native "SDL_RenderDrawLine";
 bool SDL_ShowCursor(int toggle) native "SDL_ShowCursor";
-int SDL_CreateTextureFromSurface(int windowPtr, int surfacePtr)
+String SDL_CreateTextureFromSurface(int windowPtr, int surfacePtr)
     native "SDL_CreateTextureFromSurface";
 bool SDL_RenderCopy(int windowPtr, int texturePtr, int sx, int sy, int sw,
     int sh, int dx, int dy, int dw, int dh) native "SDL_RenderCopy";
