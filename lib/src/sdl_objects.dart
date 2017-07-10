@@ -27,17 +27,25 @@ class SDL_Color {
 }
 
 abstract class SDL_Window {
-  num data;
+  final num data;
+
+  SDL_Window(this.data);
 }
 
 abstract class SDL_Surface {
-  num data;
+  final num data;
+
+  SDL_Surface(this.data);
 }
 
 abstract class SDL_Texture {
-  num data;
+  final num data;
+
+  SDL_Texture(this.data);
 }
 
 abstract class TTF_Font {
-  num data;
+  final num data;
+
+  TTF_Font(this.data);
 }

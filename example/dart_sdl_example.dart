@@ -44,7 +44,7 @@ main() {
     clearWindow(SDL_Color.White);
 
     SDL_RenderCopy(window, texture, null, new Rectangle(0, 0, 100, 20));
-
+    
     drawCursor();
 
     SDL_RenderPresent(window);
