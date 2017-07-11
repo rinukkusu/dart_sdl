@@ -42,7 +42,7 @@ int main()
 			SDL_Rect rect;
 			rect.w = w;
 			rect.h = h;
-			SDL_RenderCopy(renderer, renderedText, NULL, &rect);
+			//SDL_RenderCopy(renderer, renderedText, NULL, &rect);
 		}
 
 		SDL_RenderPresent(renderer);

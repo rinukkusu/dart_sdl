@@ -4,6 +4,7 @@
 import 'dart-ext:sdl_extension';
 
 int GetCurrentThreadId() native "GetCurrentThreadId";
+int GetCurrentThreadId_2() native "GetCurrentThreadId_2";
 bool SDL_Init(int flags) native "SDL_Init";
 int SDL_CreateWindow(String title, int x, int y, int w, int h, int flags)
     native "SDL_CreateWindow";

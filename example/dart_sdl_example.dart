@@ -46,8 +46,9 @@ main() {
 
     clearWindow(SDL_Color.White);
 
-    SDL_RenderCopy(window, texture, null, new Rectangle(10, 10, texture.width, texture.height));
-    
+    SDL_RenderCopy(window, texture, null,
+        new Rectangle(10, 10, texture.width, texture.height));
+
     drawCursor();
 
     SDL_RenderPresent(window);
@@ -81,10 +82,13 @@ void createWindow() {
 
   threadId = GetCurrentThreadId();
   print('current thread: ${threadId}');
+
+  threadId = GetCurrentThreadId_2();
+  print('current thread: ${threadId}');
 }
 
 void checkThread() {
-  var currentThreadId = GetCurrentThreadId();
+  var currentThreadId = GetCurrentThreadId_2();
   if (currentThreadId != threadId) {
     throw "THREAD CHANGED!!! $threadId -> $currentThreadId";
   }

@@ -1,6 +1,11 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <deque>
+#include <atomic>
+#include <future>
+#include <thread>
+#include <mutex>
 #include <Windows.h>
 #include <dart_api.h>
 #include <dart_native_api.h>
@@ -9,6 +14,29 @@
 #include "sdl_method_map.h"
 #include "sdl_misc.h"
 
+std::thread gt;
+
+void event_thread()
+{
+	while (events_running) {
+		// process messages
+		{
+			std::unique_lock<std::mutex> lock(tasks_mutex);
+			while (!tasks.empty()) {
+				auto task(std::move(tasks.front()));
+				tasks.pop_front();
+
+				// unlock during the task
+				lock.unlock();
+				task();
+				lock.lock();
+			}
+		}
+
+		// give cpu some time
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+}
 
 Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool * auto_setup_scope)
 {
@@ -29,6 +57,9 @@ DART_EXPORT Dart_Handle sdl_extension_Init(Dart_Handle parent_library) {
 	Dart_Handle result_code =
 		Dart_SetNativeResolver(parent_library, ResolveName, NULL);
 	if (Dart_IsError(result_code)) return result_code;
+
+	events_running = true;
+	gt = std::thread(event_thread);
 
 	return Dart_Null();
 }

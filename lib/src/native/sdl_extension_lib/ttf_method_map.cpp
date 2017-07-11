@@ -6,7 +6,12 @@
 
 void _TTF_Init(Dart_NativeArguments args) 
 {
-	bool result = !TTF_WasInit() && TTF_Init() == 0;
+	bool result = RunOnGuiThread([](TaskValue val) {
+		bool result = !TTF_WasInit() && TTF_Init() == 0;
+
+		return TaskValue(result);
+	}, TaskValue()).bool_1;
+
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }
 
@@ -20,20 +25,27 @@ void _TTF_OpenFont(Dart_NativeArguments args)
 	HandleError(Dart_StringToCString(filePathString, &filePath));
 
 	HandleError(Dart_GetNativeIntegerArgument(args, 1, &ptsize));
+
+	TaskValue val = TaskValue(filePath);
+	val.integer_1 = ptsize;
 	
-	bool result = TTF_WasInit() == 1;
-	if (result) {
-		TTF_Font* font = TTF_OpenFont(filePath, ptsize);
+	uint64_t fontPtr = RunOnGuiThread([](TaskValue val) {
+		bool result = TTF_WasInit() == 1;
+		if (result) {
+			TTF_Font* font = TTF_OpenFont(val.string_1, val.integer_1);
 
-		if (font) {
-			uint64_t fontPtr = reinterpret_cast<uint64_t>(font);
-			Dart_SetReturnValue(args, HandleError(Dart_NewInteger(fontPtr)));
-
-			return;
+			if (font) {
+				int64_t fontPtr = reinterpret_cast<int64_t>(font);
+				return TaskValue(fontPtr);
+			}
 		}
-	}
 
-	Dart_SetReturnValue(args, HandleError(Dart_NewInteger(-1)));
+		return TaskValue((int64_t)-1);
+	}, val).integer_1;
+
+	if (fontPtr > 0) {
+		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(fontPtr)));
+	}
 }
 
 void RenderText_Internal(Dart_NativeArguments args, bool blended) {
@@ -55,11 +67,24 @@ void RenderText_Internal(Dart_NativeArguments args, bool blended) {
 	SDL_Color color = { r, g, b, a };
 
 	TTF_Font* font = reinterpret_cast<TTF_Font*>(fontPtr);
-	SDL_Surface* surface = blended 
-		? TTF_RenderText_Blended(font, text, color)
-		: TTF_RenderText_Solid(font, text, color);
 
-	uint64_t surfacePtr = reinterpret_cast<uint64_t>(surface);
+	TaskValue val = TaskValue((void*)font, (void*)text, (void*)&color);
+	val.bool_1 = blended;
+
+	uint64_t surfacePtr = RunOnGuiThread([](TaskValue val) {
+		TTF_Font* font = (TTF_Font*)val.ptr_1;
+		const char* text = (const char*)val.ptr_2;
+		SDL_Color* color = (SDL_Color*)val.ptr_3;
+
+		SDL_Surface* surface = val.bool_1
+			? TTF_RenderText_Blended(font, text, *color)
+			: TTF_RenderText_Solid(font, text, *color);
+
+		int64_t surfacePtr = reinterpret_cast<int64_t>(surface);
+
+		return TaskValue(surfacePtr);
+	}, val).integer_1;
+
 	Dart_SetReturnValue(args, HandleError(Dart_NewInteger(surfacePtr)));
 }
 
