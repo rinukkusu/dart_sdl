@@ -31,3 +31,5 @@ bool TTF_Init() native "TTF_Init";
 int TTF_OpenFont(String filePath, int fontSize) native "TTF_OpenFont";
 int TTF_RenderText(int fontPtr, String text, int r, int g, int b, int a)
     native "TTF_RenderText";
+int TTF_RenderText_Blended(int fontPtr, String text, int r, int g, int b, int a)
+    native "TTF_RenderText_Blended";

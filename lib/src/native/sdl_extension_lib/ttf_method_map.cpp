@@ -36,7 +36,7 @@ void _TTF_OpenFont(Dart_NativeArguments args)
 	Dart_SetReturnValue(args, HandleError(Dart_NewInteger(-1)));
 }
 
-void _TTF_RenderText(Dart_NativeArguments args) {
+void RenderText_Internal(Dart_NativeArguments args, bool blended) {
 	int64_t fontPtr = 0;
 	const char* text = NULL;
 	int64_t r, g, b, a;
@@ -55,11 +55,22 @@ void _TTF_RenderText(Dart_NativeArguments args) {
 	SDL_Color color = { r, g, b, a };
 
 	TTF_Font* font = reinterpret_cast<TTF_Font*>(fontPtr);
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
+	SDL_Surface* surface = blended 
+		? TTF_RenderText_Blended(font, text, color)
+		: TTF_RenderText_Solid(font, text, color);
 
 	uint64_t surfacePtr = reinterpret_cast<uint64_t>(surface);
 	Dart_SetReturnValue(args, HandleError(Dart_NewInteger(surfacePtr)));
 }
+
+void _TTF_RenderText(Dart_NativeArguments args) {
+	RenderText_Internal(args, false);
+}
+
+void _TTF_RenderText_Blended(Dart_NativeArguments args) {
+	RenderText_Internal(args, true);
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +82,7 @@ Dart_NativeFunction TTF_GetMethod(const char * title)
 	if (strcmp("TTF_Init", title) == 0) result = _TTF_Init;
 	if (strcmp("TTF_OpenFont", title) == 0) result = _TTF_OpenFont;
 	if (strcmp("TTF_RenderText", title) == 0) result = _TTF_RenderText;
+	if (strcmp("TTF_RenderText_Blended", title) == 0) result = _TTF_RenderText_Blended;
 
 	return result;
 }

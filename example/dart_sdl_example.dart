@@ -27,10 +27,10 @@ main() {
   var success = TTF_Init();
   print('initialized TTF: ${success}');
 
-  font = TTF_OpenFont(r'arial.ttf', 14);
+  font = TTF_OpenFont(r'.\fonts\arial.ttf', 14);
   print('loaded font: ${font?.data}');
 
-  var surface = TTF_RenderText(font, "test", SDL_Color.Black);
+  var surface = TTF_RenderText_Blended(font, "test", SDL_Color.Black);
   var texture = SDL_CreateTextureFromSurface(window, surface);
   SDL_FreeSurface(surface);
 

@@ -94,3 +94,9 @@ SDL_Surface TTF_RenderText(TTF_Font font, String text, SDL_Color color) {
       sdl.TTF_RenderText(font.data, text, color.r, color.b, color.g, color.a);
   return pointer >= 0 ? new SDL_Surface_Native(pointer) : null;
 }
+
+SDL_Surface TTF_RenderText_Blended(TTF_Font font, String text, SDL_Color color) {
+  var pointer =
+      sdl.TTF_RenderText_Blended(font.data, text, color.r, color.b, color.g, color.a);
+  return pointer >= 0 ? new SDL_Surface_Native(pointer) : null;
+}
