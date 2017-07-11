@@ -45,3 +45,9 @@ const int SDL_DROPFILE = 4096;
 const int SDL_DROPTEXT = 4097;
 const int SDL_DROPBEGIN = 4098;
 const int SDL_DROPCOMPLETE = 4099;
+
+// SDL_Image
+const int IMG_INIT_JPG = 1;
+const int IMG_INIT_PNG = 1 << 1;
+const int IMG_INIT_TIF = 1 << 2;
+const int IMG_INIT_WEBP = 1 << 3;

@@ -81,6 +81,7 @@ bool SDL_RenderCopy(
 
 void SDL_FreeSurface(SDL_Surface surface) => sdl.SDL_FreeSurface(surface.data);
 
+
 // TTF
 bool TTF_Init() => sdl.TTF_Init();
 
@@ -100,3 +101,7 @@ SDL_Surface TTF_RenderText_Blended(TTF_Font font, String text, SDL_Color color) 
       sdl.TTF_RenderText_Blended(font.data, text, color.r, color.b, color.g, color.a);
   return pointer >= 0 ? new SDL_Surface_Native(pointer) : null;
 }
+
+
+// IMG
+bool IMG_Init([int flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP]) => sdl.IMG_Init(flags);

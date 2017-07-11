@@ -5,6 +5,7 @@
 #include "SDL_WindowWrapper.h"
 #include "sdl_method_map.h"
 #include "ttf_method_map.h"
+#include "img_method_map.h"
 #include "json.h"
 
 SDL_WindowWrapper2* g_wrapperArray;
@@ -268,6 +269,11 @@ Dart_NativeFunction GetMethod(const char * title)
 	// search in ttf library for method
 	if (result == NULL) {
 		result = TTF_GetMethod(title);
+	}
+
+	// search in img library for method
+	if (result == NULL) {
+		result = IMG_GetMethod(title);
 	}
 
 	return result;

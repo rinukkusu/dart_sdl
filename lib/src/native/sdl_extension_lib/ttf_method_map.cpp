@@ -77,7 +77,7 @@ void _TTF_RenderText_Blended(Dart_NativeArguments args) {
 
 Dart_NativeFunction TTF_GetMethod(const char * title)
 {
-	Dart_NativeFunction result;
+	Dart_NativeFunction result = NULL;
 
 	if (strcmp("TTF_Init", title) == 0) result = _TTF_Init;
 	if (strcmp("TTF_OpenFont", title) == 0) result = _TTF_OpenFont;

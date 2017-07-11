@@ -160,3 +160,6 @@ $RECYCLE.BIN/
 !external/SDL2_ttf-2.0.14/
 !external/SDL2_ttf-2.0.14/lib/x64
 !external/SDL2_ttf-2.0.14/lib/x86
+!external/SDL2_image-2.0.1/
+!external/SDL2_image-2.0.1/lib/x64
+!external/SDL2_image-2.0.1/lib/x86

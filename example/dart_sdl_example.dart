@@ -24,6 +24,9 @@ Point mousePos = new Point(0, 0);
 main() {
   createWindow();
 
+  var success_img = IMG_Init();
+  print('initialized IMG: ${success_img}');
+
   var success = TTF_Init();
   print('initialized TTF: ${success}');
 

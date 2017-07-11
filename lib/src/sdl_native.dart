@@ -33,3 +33,6 @@ int TTF_RenderText(int fontPtr, String text, int r, int g, int b, int a)
     native "TTF_RenderText";
 int TTF_RenderText_Blended(int fontPtr, String text, int r, int g, int b, int a)
     native "TTF_RenderText_Blended";
+
+// IMG
+bool IMG_Init(int flags) native "IMG_Init";
