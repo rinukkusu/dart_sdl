@@ -134,7 +134,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>DART_SHARED_LIB;NDEBUG;_WINDOWS;_USRDLL;SDL_EXTENSION_LIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

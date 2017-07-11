@@ -80,7 +80,7 @@ void _SDL_CreateWindow(Dart_NativeArguments args) {
 
 		struct SDL_WindowWrapper2 w = SDL_WindowWrapper2_t;
 		w.window = window;
-		w.renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+		w.renderer = renderer;
 		g_wrapperArray[0] = w;
 		Dart_SetReturnValue(args, HandleError(Dart_NewInteger(0)));
 	}
@@ -124,13 +124,16 @@ void _SDL_SetRenderDrawColor(Dart_NativeArguments args) {
 
 	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
 
+	TaskValue val = TaskValue(r, g, b, a);
+	val.ptr_1 = &window;
+
 	bool success = RunOnGuiThread([](TaskValue val) {
 		SDL_WindowWrapper2* window = (SDL_WindowWrapper2*)val.ptr_1;
 
 		bool result = window->SetColor(val.integer_1, val.integer_2, val.integer_3, val.integer_4);
 
 		return TaskValue(result);
-	}, TaskValue(&window)).bool_1;
+	}, val).bool_1;
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(success)));
 }
@@ -198,13 +201,16 @@ void _SDL_RenderDrawPoint(Dart_NativeArguments args) {
 
 	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
 
+	TaskValue val = TaskValue(x, y);
+	val.ptr_1 = &window;
+
 	bool result = RunOnGuiThread([](TaskValue val) {
 		SDL_WindowWrapper2* window = (SDL_WindowWrapper2*)val.ptr_1;
 
 		bool result = window->DrawPoint(val.integer_1, val.integer_2);
 
 		return TaskValue(result);
-	}, TaskValue(x, y)).bool_1;
+	}, val).bool_1;
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }
@@ -219,13 +225,16 @@ void _SDL_RenderDrawLine(Dart_NativeArguments args) {
 
 	SDL_WindowWrapper2 window = GetWindowFromArgs(args);
 
+	TaskValue val = TaskValue(x1, y1, x2, y2);
+	val.ptr_1 = &window;
+
 	bool result = RunOnGuiThread([](TaskValue val) {
 		SDL_WindowWrapper2* window = (SDL_WindowWrapper2*)val.ptr_1;
 
 		bool result = window->DrawLine(val.integer_1, val.integer_2, val.integer_3, val.integer_4);
 
 		return TaskValue(result);
-	}, TaskValue(x1, y1, x2, y2)).bool_1;
+	}, val).bool_1;
 
 	Dart_SetReturnValue(args, HandleError(Dart_NewBoolean(result)));
 }

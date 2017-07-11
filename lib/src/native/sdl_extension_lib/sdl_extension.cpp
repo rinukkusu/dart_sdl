@@ -21,6 +21,7 @@ void event_thread()
 	while (events_running) {
 		// process messages
 		{
+			// using mutex here costs us 100fps (500 -> 400)
 			std::unique_lock<std::mutex> lock(tasks_mutex);
 			while (!tasks.empty()) {
 				auto task(std::move(tasks.front()));
@@ -33,8 +34,8 @@ void event_thread()
 			}
 		}
 
-		// give cpu some time
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		// sleeping here drops fps from 500 to 45
+		// std::this_thread::sleep_for(std::chrono::microseconds(1));
 	}
 }
 

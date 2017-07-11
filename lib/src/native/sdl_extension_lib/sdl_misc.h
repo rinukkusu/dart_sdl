@@ -7,6 +7,7 @@
 #include <future>
 #include <thread>
 #include <mutex>
+#include <Windows.h>
 
 Dart_Handle HandleError(Dart_Handle handle);
 
