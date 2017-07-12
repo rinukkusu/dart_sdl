@@ -11,12 +11,6 @@
 SDL_WindowWrapper2* g_wrapperArray;
 struct SDL_WindowWrapper2 SDL_WindowWrapper2_t;
 
-
-void _GetCurrentThreadId(Dart_NativeArguments args) {
-	uint64_t threadId = GetCurrentThreadId();
-	Dart_SetReturnValue(args, HandleError(Dart_NewIntegerFromUint64(threadId)));
-}
-
 SDL_WindowWrapper2 GetWindowFromArgs(Dart_NativeArguments args) {
 	int64_t index = 0;
 
@@ -358,23 +352,11 @@ void _SDL_FreeSurface(Dart_NativeArguments args) {
 	}, TaskValue(surfacePtr));
 }
 
-void _GetCurrentThreadId_2(Dart_NativeArguments args) {
-	auto threadId = RunOnGuiThread([](TaskValue a) {
-		auto threadId = GetCurrentThreadId();
-		return TaskValue((int64_t)threadId);
-	}, TaskValue());
-
-	Dart_SetReturnValue(args, HandleError(Dart_NewIntegerFromUint64(threadId.integer_1)));
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 
 Dart_NativeFunction GetMethod(const char * title)
 {
 	Dart_NativeFunction result = NULL;
-
-	if (strcmp("GetCurrentThreadId", title) == 0) result = _GetCurrentThreadId;
-	if (strcmp("GetCurrentThreadId_2", title) == 0) result = _GetCurrentThreadId_2;
 
 	if (strcmp("SDL_Init", title) == 0) result = _SDL_Init;
 	if (strcmp("SDL_CreateWindow", title) == 0) result = _SDL_CreateWindow;

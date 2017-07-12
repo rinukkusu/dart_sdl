@@ -40,7 +40,6 @@ main() {
   SDL_ShowCursor(SDL_DISABLE);
 
   while (true) {
-    checkThread();
     handleEvents();
     calcFps();
 
@@ -79,19 +78,6 @@ void createWindow() {
   window = SDL_CreateWindow(
       "Test", new Rectangle(30, 30, 400, 300), SDL_WINDOW_RESIZABLE);
   print('windowCreated: ${window.data}');
-
-  threadId = GetCurrentThreadId();
-  print('current thread: ${threadId}');
-
-  threadId = GetCurrentThreadId_2();
-  print('current thread: ${threadId}');
-}
-
-void checkThread() {
-  var currentThreadId = GetCurrentThreadId_2();
-  if (currentThreadId != threadId) {
-    throw "THREAD CHANGED!!! $threadId -> $currentThreadId";
-  }
 }
 
 void handleEvents() {

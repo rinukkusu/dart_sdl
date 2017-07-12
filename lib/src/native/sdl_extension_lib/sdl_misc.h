@@ -111,6 +111,7 @@ public:
 	}
 };
 
+extern std::thread ethread;
 extern std::deque<std::packaged_task<TaskValue()>> tasks;
 extern std::mutex tasks_mutex;
 extern std::atomic<bool> events_running;

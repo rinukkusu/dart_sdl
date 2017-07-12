@@ -9,9 +9,6 @@ import 'sdl_native.dart' as sdl;
 import 'sdl_native_objects.dart';
 import 'sdl_objects.dart';
 
-int GetCurrentThreadId() => sdl.GetCurrentThreadId();
-int GetCurrentThreadId_2() => sdl.GetCurrentThreadId_2();
-
 bool SDL_Init(int flags) => sdl.SDL_Init(flags);
 
 SDL_Window SDL_CreateWindow(String title, Rectangle rect, int flags) {

@@ -14,8 +14,6 @@
 #include "sdl_method_map.h"
 #include "sdl_misc.h"
 
-std::thread gt;
-
 void event_thread()
 {
 	while (events_running) {
@@ -60,7 +58,8 @@ DART_EXPORT Dart_Handle sdl_extension_Init(Dart_Handle parent_library) {
 	if (Dart_IsError(result_code)) return result_code;
 
 	events_running = true;
-	gt = std::thread(event_thread);
+	ethread = std::thread(event_thread);
+	ethread.detach();
 
 	return Dart_Null();
 }
