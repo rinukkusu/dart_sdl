@@ -44,6 +44,7 @@ Dart_NativeFunction IMG_GetMethod(const char * title)
 	Dart_NativeFunction result = NULL;
 
 	if (strcmp("IMG_Init", title) == 0) result = _IMG_Init;
+	if (strcmp("IMG_Load", title) == 0) result = _IMG_Load;
 
 
 	return result;
