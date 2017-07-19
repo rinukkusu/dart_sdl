@@ -35,3 +35,4 @@ int TTF_RenderText_Blended(int fontPtr, String text, int r, int g, int b, int a)
 
 // IMG
 bool IMG_Init(int flags) native "IMG_Init";
+int IMG_Load(String filePath) native "IMG_Load";

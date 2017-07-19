@@ -103,3 +103,7 @@ SDL_Surface TTF_RenderText_Blended(TTF_Font font, String text, SDL_Color color) 
 
 // IMG
 bool IMG_Init([int flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP]) => sdl.IMG_Init(flags);
+SDL_Surface IMG_Load(String filePath) {
+  var pointer = sdl.IMG_Load(filePath);
+  return pointer >= 0 ? new SDL_Surface_Native(pointer) : null;
+}
