@@ -78,6 +78,7 @@ bool SDL_RenderCopy(
         dst.height);
 
 void SDL_FreeSurface(SDL_Surface surface) => sdl.SDL_FreeSurface(surface.data);
+String SDL_GetError() => sdl.SDL_GetError();
 
 
 // TTF

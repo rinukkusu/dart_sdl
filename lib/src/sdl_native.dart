@@ -24,6 +24,7 @@ String SDL_CreateTextureFromSurface(int windowPtr, int surfacePtr)
 bool SDL_RenderCopy(int windowPtr, int texturePtr, int sx, int sy, int sw,
     int sh, int dx, int dy, int dw, int dh) native "SDL_RenderCopy";
 void SDL_FreeSurface(int surfacePtr) native "SDL_FreeSurface";
+String SDL_GetError() native "SDL_GetError";
 
 // TTF
 bool TTF_Init() native "TTF_Init";

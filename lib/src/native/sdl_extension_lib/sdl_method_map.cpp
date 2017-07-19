@@ -352,6 +352,12 @@ void _SDL_FreeSurface(Dart_NativeArguments args) {
 	}, TaskValue(surfacePtr));
 }
 
+void _SDL_GetError(Dart_NativeArguments args) {
+	const char* error = SDL_GetError();
+
+	Dart_SetReturnValue(args, HandleError(Dart_NewStringFromCString(error)));
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 Dart_NativeFunction GetMethod(const char * title)
@@ -372,6 +378,7 @@ Dart_NativeFunction GetMethod(const char * title)
 	if (strcmp("SDL_CreateTextureFromSurface", title) == 0) result = _SDL_CreateTextureFromSurface;
 	if (strcmp("SDL_RenderCopy", title) == 0) result = _SDL_RenderCopy;
 	if (strcmp("SDL_FreeSurface", title) == 0) result = _SDL_FreeSurface;
+	if (strcmp("SDL_GetError", title) == 0) result = _SDL_GetError;
 
 	// search in ttf library for method
 	if (result == NULL) {
